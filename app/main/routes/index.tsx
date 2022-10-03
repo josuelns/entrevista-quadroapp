@@ -31,8 +31,8 @@ export default function Index() {
 
   //create
   const [title, setTitle] = useState("")
-  const [stardedDate, setStartedDate] = useState<string>(format(Date.now(), 'yyyy-MM-dd hh:mm'))
-  const [endingDate, setEndingDate] = useState<string>(format(Date.now(), 'yyyy-MM-dd hh:mm'))
+  const [stardedDate, setStartedDate] = useState<string>("")
+  const [endingDate, setEndingDate] = useState<string>("")
 
   useEffect(() => {
     supabaseClient.from<Appointment>('appointments').select().then((response) => {
@@ -47,7 +47,7 @@ export default function Index() {
       }
       setAppointments(response.data)
     })
-  }, [supabaseClient])
+  }, [])
 
   async function createAppointment({title, started_date, ending_date }:AppointmentDTO){
     console.log(title,started_date,ending_date)
@@ -77,12 +77,18 @@ export default function Index() {
       .from('appointments')
       .select("*")
 
-    if(title){ query = query.ilike('title', title)}
-    if(started_date){ query = query.eq('started_date', started_date)}
-    if(ending_date){ query = query.eq('ending_date', ending_date)}
+    if(title){ 
+      console.log('confirmo que entrei com titulo')
+      query = query.ilike('title', '%'+title+"%")
+    }
+    if(started_date.length > 0){ 
+      console.log('to aqui') 
+      query = query.eq('started_date', started_date)
+    }
+    if(ending_date.length > 0){ query = query.eq('ending_date', ending_date)}
 
-    let { data: appointments, error } = await query
-    console.log(appointments)
+    let response = await query
+    setAppointments(response.data as Appointment[])
     
   }
 

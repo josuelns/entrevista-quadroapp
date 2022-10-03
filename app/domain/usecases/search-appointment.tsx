@@ -1,0 +1,15 @@
+import { AppointmentsModel } from '../models'
+
+export interface SearchAppointment {
+  search: (params: SearchAppointment.Params) => Promise<SearchAppointment.Model>
+}
+
+export namespace SearchAppointment {
+  export type Params = {
+    title: string, 
+    started_date: string, 
+    ending_date: string,
+  }
+
+  export type Model = AppointmentsModel
+}
