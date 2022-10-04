@@ -1,5 +1,5 @@
 export type AppointmentModel = {
-  id: number,
+  id: string,
   title: string,
   started_date: string,
   ending_date: string,
