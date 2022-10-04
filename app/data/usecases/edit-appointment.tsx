@@ -1,18 +1,13 @@
 import { InstanceDatabaseClient  } from '../protocols/instance-database'
-import { AddAppointment } from '../../domain/usecases'
+import { EditAppointment } from '../../domain/usecases'
 
-export class RemoteAddAppointment implements AddAppointment {
+export class RemoteEditAppointment implements EditAppointment {
   constructor (
-    private readonly url: string,
-    private readonly token: string,
     private readonly InstanceDatabaseClient: InstanceDatabaseClient
   ) {}
 
-  async add (params: AddAppointment.Params): Promise<AddAppointment.Model> {
-    const instanceDatabseResponse = await this.InstanceDatabaseClient.database({
-      url: this.url,
-      token: this.token  
-    })
+  async edit (params: EditAppointment.Params): Promise<EditAppointment.Model> {
+    const instanceDatabseResponse = await this.InstanceDatabaseClient.database()
     
     try {
       const data = await instanceDatabseResponse

@@ -3,16 +3,11 @@ import { AddAppointment } from '../../domain/usecases'
 
 export class RemoteAddAppointment implements AddAppointment {
   constructor (
-    private readonly url: string,
-    private readonly token: string,
     private readonly InstanceDatabaseClient: InstanceDatabaseClient
   ) {}
 
   async add (params: AddAppointment.Params): Promise<AddAppointment.Model> {
-    const instanceDatabseResponse = await this.InstanceDatabaseClient.database({
-      url: this.url,
-      token: this.token  
-    })
+    const instanceDatabseResponse = await this.InstanceDatabaseClient.database()
     
     try {
       const data = await instanceDatabseResponse

@@ -3,17 +3,12 @@ import { SearchAppointment } from '../../domain/usecases'
 
 export class RemoteSearchAppointment implements SearchAppointment {
   constructor (
-    private readonly url: string,
-    private readonly token: string,
     private readonly InstanceDatabaseClient: InstanceDatabaseClient
   ) {}
 
   async search (params: SearchAppointment.Params): Promise<SearchAppointment.Model> {
-    const instanceDatabseResponse = await this.InstanceDatabaseClient.database({
-      url: this.url,
-      token: this.token  
-    })
-    
+    const instanceDatabseResponse = await this.InstanceDatabaseClient.database()
+
     try {
       let query = instanceDatabseResponse
       .from('appointments')

@@ -6,5 +6,5 @@ export type DatabaseloaderInterface = {
 }
 
 export interface InstanceDatabaseClient {
-  database: (loader: DatabaseloaderInterface) => Promise<SupabaseClient>
+  database: () => Promise<SupabaseClient>
 }

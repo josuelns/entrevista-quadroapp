@@ -1,3 +1,3 @@
 export type AppointmentEditModel = {
-  statusCode: string
+  StatusCode: number
 }

@@ -3,16 +3,11 @@ import { RemoveAppointment } from '../../domain/usecases'
 
 export class RemoteRemoveAppointment implements RemoveAppointment {
   constructor (
-    private readonly url: string,
-    private readonly token: string,
     private readonly InstanceDatabaseClient: InstanceDatabaseClient
   ) {}
 
   async remove (params: RemoveAppointment.Params): Promise<RemoveAppointment.Model> {
-    const instanceDatabseResponse = await this.InstanceDatabaseClient.database({
-      url: this.url,
-      token: this.token  
-    })
+    const instanceDatabseResponse = await this.InstanceDatabaseClient.database()
     
     try {
       const data = await instanceDatabseResponse

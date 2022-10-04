@@ -3,16 +3,11 @@ import { LoadAppointment } from '../../domain/usecases'
 
 export class RemoteLoadAppointment implements LoadAppointment {
   constructor (
-    private readonly url: string,
-    private readonly token: string,
     private readonly InstanceDatabaseClient: InstanceDatabaseClient
   ) {}
 
   async load (): Promise<LoadAppointment.Model> {
-    const instanceDatabseResponse = await this.InstanceDatabaseClient.database({
-      url: this.url,
-      token: this.token  
-    })
+    const instanceDatabseResponse = await this.InstanceDatabaseClient.database()
     
     try {
       let query = instanceDatabseResponse
