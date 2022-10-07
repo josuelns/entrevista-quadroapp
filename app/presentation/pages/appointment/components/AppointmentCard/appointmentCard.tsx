@@ -74,8 +74,8 @@ const AppointmentCard: React.FC<Props> = ({ EditAppointment, RemoveAppointment, 
                 <li>
                     <input type="datetime-local" value={useformatDate(ending)} onChange={e => setEnding(useformatDate(e.target.value))} />
                 </li>
-                <button onClick={() => handleClickDelete}>Apagar</button>
-                <button onClick={() => handleClickEdit}>Editar</button>
+                <button type="button" onClick={() => handleClickDelete()}>Apagar</button>
+                <button type="button" onClick={() => handleClickEdit()}>Editar</button>
             </form>
         </section>
     )
