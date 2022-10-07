@@ -14,6 +14,11 @@ import {
 
 import AppointmentCard from "./components/AppointmentCard/appointmentCard";
 
+import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../../main/store";
+
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
+
 type Props = {
   addAppointment: AddAppointment,
   editAppointment: EditAppointment,
@@ -22,6 +27,8 @@ type Props = {
   removeAppointment: RemoveAppointment,
   searchAppointment: SearchAppointment,
 }
+
+
 
 const Appointment: React.FC<Props> = ({ addAppointment, editAppointment, loadAppointment, orderAppointment, removeAppointment, searchAppointment }: Props) => {
   const [title, setTitle] = useState<string>("")
@@ -33,6 +40,8 @@ const Appointment: React.FC<Props> = ({ addAppointment, editAppointment, loadApp
   const [orderEndingDate, setOrderEndingDate] = useState<boolean>(false)
 
   const [appointments, setAppointments] = useState<AppointmentsModel>({appointments: []})
+
+  const storeState = useAppSelector(state => state)
 
   const handleAddAppointment = async (): Promise<void> => {
     try {
@@ -48,7 +57,7 @@ const Appointment: React.FC<Props> = ({ addAppointment, editAppointment, loadApp
     catch (error) {
       console.log(error)
     }
-  }
+  }   
 
   const handleSearchAppointment = async (): Promise<void> => {
     const search = async () => {
@@ -90,7 +99,10 @@ const Appointment: React.FC<Props> = ({ addAppointment, editAppointment, loadApp
     order()
   }
 
+
+
   useEffect(() => {
+    console.log(storeState)  
     const load = async () => {
       try {
         const data = await loadAppointment.load()
