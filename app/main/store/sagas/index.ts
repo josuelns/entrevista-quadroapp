@@ -1,6 +1,19 @@
 import { all } from 'redux-saga/effects'
-import user from './user'
+
+import {addAppointmentSaga} from './add-appointment'
+import {editAppointmentSaga} from './edit-appointment'
+import {loadAppointmentSaga} from './load-appointment'
+import {orderAppointmentSaga} from './order-appointment'
+import {removeAppointmentSaga} from './remove-appointment'
+import {searchAppointmentSaga} from './search-appointment'
 
 export default function* rootSaga(): Generator<any> {
-    return yield all([user])
+    return yield all([
+        addAppointmentSaga,
+        editAppointmentSaga,
+        loadAppointmentSaga,
+        orderAppointmentSaga,
+        removeAppointmentSaga,
+        searchAppointmentSaga
+    ])
 }
