@@ -34,10 +34,5 @@ export class RemoteSearchDateIntervalAppointment implements SearchDateIntervalAp
         appointments: []
       }
     }
-    finally{
-      return {
-        appointments: []
-      }
-    }
   }
 }

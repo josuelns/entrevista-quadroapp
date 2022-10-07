@@ -19,10 +19,7 @@ export class RemoteAddAppointment implements AddAppointment {
         StatusCode: data.status
       }
     } catch (error) {
-      
-    }
-    finally{
-      return {
+      return{
         StatusCode: 500
       }
     }

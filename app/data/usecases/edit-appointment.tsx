@@ -12,19 +12,15 @@ export class RemoteEditAppointment implements EditAppointment {
     try {
       const data = await instanceDatabseResponse
       .from('appointments')
-      .insert([
-        { ...params},
-      ])
+      .update({ ...params})
+      .eq('id', params.id)
       return {
         StatusCode: data.status
       }
     } catch (error) {
-      
-    }
-    finally{
       return {
         StatusCode: 500
-      }
+      } 
     }
   }
 }

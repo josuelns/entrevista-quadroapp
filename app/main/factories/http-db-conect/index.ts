@@ -1,1 +1,1 @@
-export * from './supabase-instance-database-client'
+export * from './supabase-instance-database-client-factory'

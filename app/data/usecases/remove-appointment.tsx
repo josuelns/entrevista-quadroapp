@@ -18,12 +18,9 @@ export class RemoteRemoveAppointment implements RemoveAppointment {
         StatusCode: data.status
       }
     } catch (error) {
-      
-    }
-    finally{
       return {
         StatusCode: 500
-      }
+      } 
     }
   }
 }

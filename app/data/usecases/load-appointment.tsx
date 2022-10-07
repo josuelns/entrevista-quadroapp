@@ -7,35 +7,19 @@ export class RemoteLoadAppointment implements LoadAppointment {
   ) {}
 
   async load (): Promise<LoadAppointment.Model> {
-    const instanceDatabseResponse = await this.InstanceDatabaseClient.database()
-    
-    try {
-      let query = instanceDatabseResponse
+    const instanceDatabase = await this.InstanceDatabaseClient.database()
+    let appointmentsData: any = []
+    const cb = async () => {
+      return await instanceDatabase
       .from('appointments')
-      .select("*")
-
-      let { data: appointments, error } = await query
-
-      if(appointments){
-        return {
-          appointments: appointments
-        }
-      }
-      else{
-        return {
-          appointments: []
-        }
-      }
-      
-    } catch (error) {
-      return {
-        appointments: []
-      }
+      .select("*") 
+      .order('id',{ascending: false})
     }
-    finally{
-      return {
-        appointments: []
-      }
+
+    appointmentsData =  (await cb()).body 
+
+    return {
+      appointments: appointmentsData
     }
   }
 }

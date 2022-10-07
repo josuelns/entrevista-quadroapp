@@ -2,5 +2,4 @@ import { makeSupabaseInstanceDatabaseClient } from '~/main/factories/http-db-con
 import { AddAppointment } from '~/domain/usecases'
 import {RemoteAddAppointment} from '~/data/usecases'
 
-export const makeRemoteAddAppointment = (): AddAppointment =>
-  new RemoteAddAppointment(makeSupabaseInstanceDatabaseClient)
+export const makeRemoteAddAppointment: AddAppointment = new RemoteAddAppointment(makeSupabaseInstanceDatabaseClient)

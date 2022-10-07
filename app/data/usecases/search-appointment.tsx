@@ -40,10 +40,5 @@ export class RemoteSearchAppointment implements SearchAppointment {
         appointments: []
       }
     }
-    finally{
-      return {
-        appointments: []
-      }
-    }
   }
 }

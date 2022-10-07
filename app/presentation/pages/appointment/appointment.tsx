@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import { AppointmentsModel } from "~/domain/models";
+import { useformatDate } from "~/presentation/hooks";
 
 import {
   AddAppointment,
@@ -27,18 +28,11 @@ const Appointment: React.FC<Props> = ({ addAppointment, editAppointment, loadApp
   const [stardedDate, setStartedDate] = useState<string>("")
   const [endingDate, setEndingDate] = useState<string>("")
 
-  const [appointments, setAppointments] = useState<AppointmentsModel>()
+  const [orderTitle, setOrderTitle] = useState<boolean>(false)
+  const [orderStardedDate, setOrderStartedDate] = useState<boolean>(false)
+  const [orderEndingDate, setOrderEndingDate] = useState<boolean>(false)
 
-  const loadAppointmentPage = async (): Promise<void> => {
-    try {
-      const data = await loadAppointment.load()
-      console.log(data)
-      setAppointments(data)
-    } 
-    catch (error) {
-      console.log(error)
-    }
-  }
+  const [appointments, setAppointments] = useState<AppointmentsModel>({appointments: []})
 
   const handleAddAppointment = async (): Promise<void> => {
     try {
@@ -57,61 +51,134 @@ const Appointment: React.FC<Props> = ({ addAppointment, editAppointment, loadApp
   }
 
   const handleSearchAppointment = async (): Promise<void> => {
-    try {
-      const data = await searchAppointment.search(
-        {
-          title: title,
-          started_date: stardedDate,
-          ending_date: endingDate
-        }
-      )
-      console.log(data)
-    } 
-    catch (error) {
-      console.log(error)
+    const search = async () => {
+      try {
+        const data =  await searchAppointment.search(
+          {
+            title: title,
+            started_date: stardedDate,
+            ending_date: endingDate
+          }
+        )
+
+        setAppointments(data)
+      } 
+      catch (error) {
+        console.log(error)
+      }
     }
+    search()
+  }
+
+  const handleOrderAppointment = async (): Promise<void> => {
+    const order = async () => {
+      try {
+        const data =  await orderAppointment.order(
+          {
+            title: orderTitle,
+            started_date: orderStardedDate,
+            ending_date: orderEndingDate
+          }
+        )
+
+        setAppointments(data)
+      } 
+      catch (error) {
+        console.log(error)
+      }
+    }
+    order()
   }
 
   useEffect(() => {
-    loadAppointmentPage()
+    const load = async () => {
+      try {
+        const data = await loadAppointment.load()
+        setAppointments(data)
+      } 
+      catch (error) {
+        console.log(error)
+      }
+    }
+    load()
   }, [])
 
   return (
     <div className="appointmentWrap">
       <section className="appointmentHeader">
-        <h1>Appointments</h1>
+        <h1>Agendamentos</h1>
       </section>
       <div className="AppointmentFormWrap">
         <form
           className="appointmentForm"
-          onSubmit={(e) => e.defaultPrevented}
         >
           <input
             type="text"
             value={title}
-            onChange={e => setTitle}
+            onChange={e => setTitle(e.target.value)}
           />
           <input
             type="datetime-local"
             value={stardedDate}
-            onChange={e => setStartedDate}
+            onChange={e => setStartedDate(useformatDate(e.target.value))}
           />
           <input
             type="datetime-local"
             value={endingDate}
-            onChange={e => setEndingDate}
+            onChange={e => setEndingDate(useformatDate(e.target.value))}
           />
           <button
             className="btnAddAppoitment"
-            onClick={() => handleAddAppointment}
+            type="button"
+            onClick={() => handleAddAppointment()}
           >
             Agendar
           </button>
           <button
+            type="button"
             className="btnSearchAppoitment"
-            onClick={() => handleSearchAppointment}
+            onClick={() => handleSearchAppointment()}
           >
             Pesquisar
+          </button>
+        </form>
+      </div>
+      <div className="AppointmentFormOrderWrap">
+        <form
+          className="appointmentForm"
+          onSubmit={(e) => e.defaultPrevented}
+        >
+          <span> Ordenar:</span>
+          <input
+            name='orderName'
+            type="checkbox"
+            checked={orderTitle}
+            onChange={() => setOrderTitle(!orderTitle)}
+          />
+          <label htmlFor="orderName"> Nome</label>
+          
+          <input
+            name='orderStardedDate'
+            type="checkbox"
+            checked={orderStardedDate}
+            onChange={() => setOrderStartedDate(!orderStardedDate)}
+          />
+          <label htmlFor="orderStardedDate">Agendamento Início</label>
+          
+          <input
+            name='orderEndingDate'
+            type="checkbox"
+            checked={orderEndingDate}
+            onChange={() => setOrderEndingDate(!orderEndingDate)}
+          />
+          <label htmlFor="orderEndingDate">Agendamento Término</label>
+          
+          <button
+            type='button'
+            className="btnOrderAppoitment"
+            onClick={() => handleOrderAppointment()}
+          >
+            Organizar
           </button>
         </form>
       </div>

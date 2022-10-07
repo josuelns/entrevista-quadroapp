@@ -1,6 +1,7 @@
 import { format } from "date-fns"
 import { useState } from "react"
 import { AppointmentModel } from "~/domain/models"
+import { useformatDate } from "~/presentation/hooks"
 
 import {
     EditAppointment,
@@ -19,21 +20,24 @@ const AppointmentCard: React.FC<Props> = ({ EditAppointment, RemoveAppointment, 
     const [ending, setEnding] = useState<string>(Appointment.ending_date)
 
     const handleClickEdit = async (): Promise<void> => {
-        try {
-            const data = await EditAppointment.edit(
-                {
-                    id: Appointment.id,
-                    title: title,
-                    started_date: started,
-                    ending_date: ending
-                }
-            )
-            console.log(data)
+        const edit = async () => {
+            try {
+                const data = await EditAppointment.edit(
+                    {
+                        id: Appointment.id,
+                        title: title,
+                        started_date: started,
+                        ending_date: ending
+                    }
+                )
+            }
+            catch (error) {
+                console.log(error)
+            }
         }
-        catch (error) {
-            console.log(error)
-        }
+        edit()
     }
+
 
     const handleClickDelete = async (): Promise<void> => {
         try {
@@ -47,6 +51,15 @@ const AppointmentCard: React.FC<Props> = ({ EditAppointment, RemoveAppointment, 
         catch (error) {
             console.log(error)
         }
+        const remove = async () => {
+            try {
+                const data = await RemoveAppointment.remove({id: Appointment.id,})
+            }
+            catch (error) {
+                console.log(error)
+            }
+        }
+        remove()
     }
 
     return (
@@ -56,10 +69,10 @@ const AppointmentCard: React.FC<Props> = ({ EditAppointment, RemoveAppointment, 
                     <input value={title} onChange={e => setTitle(e.target.value)} />
                 </li>
                 <li>
-                    <input type="datetime-local" value={started} onChange={e => setStarded(format(new Date(e.target.value), 'yyyy-MM-dd hh:mm'))} />
+                    <input type="datetime-local" value={useformatDate(started)} onChange={e => setStarded(useformatDate(e.target.value))} />
                 </li>
                 <li>
-                    <input type="datetime-local" value={ending} onChange={e => setEnding(format(new Date(e.target.value), 'yyyy-MM-dd hh:mm'))} />
+                    <input type="datetime-local" value={useformatDate(ending)} onChange={e => setEnding(useformatDate(e.target.value))} />
                 </li>
                 <button onClick={() => handleClickDelete}>Apagar</button>
                 <button onClick={() => handleClickEdit}>Editar</button>
