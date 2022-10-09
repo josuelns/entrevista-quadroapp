@@ -1,6 +1,6 @@
 import { all, call, put, takeLatest } from '@redux-saga/core/effects'
 import { RemoveAppointment } from '~/domain/usecases'
-import { removeAppointmentFailure, removeAppointmentSuccess } from '../../actions'
+import { loadAppointmentRequest, removeAppointmentFailure, removeAppointmentSuccess } from '../../actions'
 import * as types from '../../types'
 import {
     makeRemoteRemoveAppointment
@@ -25,6 +25,7 @@ export function* RemoveAppointmentData(action: { type: string, payload: RemoveAp
     try {
         yield call(RemoveAppointmentRequest, action.payload)
         yield put(removeAppointmentSuccess(response))
+        yield put(loadAppointmentRequest())
     } catch (error) {
         yield put(removeAppointmentFailure(response))
     }

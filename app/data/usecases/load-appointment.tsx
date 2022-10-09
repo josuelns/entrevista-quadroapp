@@ -9,17 +9,16 @@ export class RemoteLoadAppointment implements LoadAppointment {
   async load (): Promise<LoadAppointment.Model> {
     const instanceDatabase = await this.InstanceDatabaseClient.database()
     let appointmentsData: any = []
+    
     const cb = async () => {
       return await instanceDatabase
       .from('appointments')
       .select("*") 
-      .order('id',{ascending: false})
+      .order('id', {ascending: false})
     }
 
     appointmentsData =  (await cb()).body 
 
-    return {
-      appointments: appointmentsData
-    }
+    return appointmentsData   
   }
 }

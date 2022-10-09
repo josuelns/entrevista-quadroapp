@@ -5,6 +5,7 @@ import { LoadAppointmentReducer } from './load-appointment'
 import { OrderAppointmentReducer } from './order-appointment'
 import { RemoveAppointmentReducer } from './remove-appointment'
 import { SearchAppointmentReducer } from './search-appointment'
+import { ListAppointmentsReducer } from './list-appointments'
 
 const rootReducer = combineReducers({
     addAppointment: AddAppointmentReducer,
@@ -12,7 +13,8 @@ const rootReducer = combineReducers({
     LoadAppointment: LoadAppointmentReducer,
     OrderAppointment: OrderAppointmentReducer,
     RemoveAppointment: RemoveAppointmentReducer,
-    SearchAppointment: SearchAppointmentReducer
+    SearchAppointment: SearchAppointmentReducer,
+    ListAppointments: ListAppointmentsReducer
 })
 
 export default rootReducer

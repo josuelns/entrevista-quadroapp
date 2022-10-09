@@ -6,6 +6,7 @@ import {loadAppointmentSaga} from './load-appointment'
 import {orderAppointmentSaga} from './order-appointment'
 import {removeAppointmentSaga} from './remove-appointment'
 import {searchAppointmentSaga} from './search-appointment'
+import {listAppointmentSaga} from './list-appointments'
 
 export default function* rootSaga(): Generator<any> {
     return yield all([
@@ -14,6 +15,7 @@ export default function* rootSaga(): Generator<any> {
         loadAppointmentSaga,
         orderAppointmentSaga,
         removeAppointmentSaga,
-        searchAppointmentSaga
+        searchAppointmentSaga,
+        listAppointmentSaga
     ])
 }

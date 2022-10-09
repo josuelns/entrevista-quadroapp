@@ -19,20 +19,14 @@ export class RemoteSearchDateIntervalAppointment implements SearchDateIntervalAp
       let { data: appointments, error } = await query
 
       if(appointments){
-        return {
-          appointments: appointments
-        }
+        return appointments
       }
       else{
-        return {
-          appointments: []
-        }
+        return []
       }
       
     } catch (error) {
-      return {
-        appointments: []
-      }
+      return []
     }
   }
 }

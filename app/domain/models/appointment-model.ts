@@ -4,7 +4,3 @@ export type AppointmentModel = {
   started_date: string,
   ending_date: string,
 }
-
-export type AppointmentsModel = {
-  appointments: AppointmentModel[]
-}

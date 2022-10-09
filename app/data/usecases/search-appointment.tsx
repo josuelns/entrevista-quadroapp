@@ -8,7 +8,6 @@ export class RemoteSearchAppointment implements SearchAppointment {
 
   async search (params: SearchAppointment.Params): Promise<SearchAppointment.Model> {
     const instanceDatabseResponse = await this.InstanceDatabaseClient.database()
-
     try {
       let query = instanceDatabseResponse
       .from('appointments')
@@ -17,28 +16,26 @@ export class RemoteSearchAppointment implements SearchAppointment {
       if(params.title){ 
         query = query.ilike('title', '%'+params.title+"%")
       }
-      if(params.started_date.length > 0){
+      if(params.started_date && params.started_date.length > 0){
         query = query.eq('started_date', params.started_date)
       }
-      if(params.ending_date.length > 0){ query = query.eq('ending_date', params.ending_date)}
+      if(params.started_date && params.ending_date.length > 0){ 
+        query = query.eq('ending_date', params.ending_date)
+      }
+
+      query = query.order('id', {ascending: false})
 
       let { data: appointments, error } = await query
 
-      if(appointments){
-        return {
-          appointments: appointments
-        }
+      if(appointments && appointments.length > 0){
+        return appointments
       }
       else{
-        return {
-          appointments: []
-        }
+        return []
       }
       
     } catch (error) {
-      return {
-        appointments: []
-      }
+      return  []
     }
   }
 }

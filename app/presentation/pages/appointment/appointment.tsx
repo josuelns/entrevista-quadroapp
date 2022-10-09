@@ -1,118 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 
-import { AppointmentsModel } from "~/domain/models";
-import { useformatDate } from "~/presentation/hooks";
-
-import {
-  AddAppointment,
-  EditAppointment,
-  LoadAppointment,
-  OrderAppointment,
-  RemoveAppointment,
-  SearchAppointment
-} from '../../../domain/usecases'
-
-import AppointmentCard from "./components/AppointmentCard/appointmentCard";
+import {AppointmentFormCard, AppointmentFormCreateAndSearch, AppointmentFormOrder} from "./components";
 
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../../main/store";
+import { AppDispatch, loadAppointmentRequest, RootState } from "../../../main/store";
+import { ListAppointmentState } from "~/main/store/reducers/list-appointments";
 
-export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
+const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
+const useAppDispatch = () => useDispatch<AppDispatch>()
 
-type Props = {
-  addAppointment: AddAppointment,
-  editAppointment: EditAppointment,
-  loadAppointment: LoadAppointment,
-  orderAppointment: OrderAppointment,
-  removeAppointment: RemoveAppointment,
-  searchAppointment: SearchAppointment,
-}
-
-
-
-const Appointment: React.FC<Props> = ({ addAppointment, editAppointment, loadAppointment, orderAppointment, removeAppointment, searchAppointment }: Props) => {
-  const [title, setTitle] = useState<string>("")
-  const [stardedDate, setStartedDate] = useState<string>("")
-  const [endingDate, setEndingDate] = useState<string>("")
-
-  const [orderTitle, setOrderTitle] = useState<boolean>(false)
-  const [orderStardedDate, setOrderStartedDate] = useState<boolean>(false)
-  const [orderEndingDate, setOrderEndingDate] = useState<boolean>(false)
-
-  const [appointments, setAppointments] = useState<AppointmentsModel>({appointments: []})
-
-  const storeState = useAppSelector(state => state)
-
-  const handleAddAppointment = async (): Promise<void> => {
-    try {
-      const data = await addAppointment.add(
-        {
-          title: title,
-          started_date: stardedDate,
-          ending_date: endingDate
-        }
-      )
-      console.log(data)
-    } 
-    catch (error) {
-      console.log(error)
-    }
-  }   
-
-  const handleSearchAppointment = async (): Promise<void> => {
-    const search = async () => {
-      try {
-        const data =  await searchAppointment.search(
-          {
-            title: title,
-            started_date: stardedDate,
-            ending_date: endingDate
-          }
-        )
-
-        setAppointments(data)
-      } 
-      catch (error) {
-        console.log(error)
-      }
-    }
-    search()
-  }
-
-  const handleOrderAppointment = async (): Promise<void> => {
-    const order = async () => {
-      try {
-        const data =  await orderAppointment.order(
-          {
-            title: orderTitle,
-            started_date: orderStardedDate,
-            ending_date: orderEndingDate
-          }
-        )
-
-        setAppointments(data)
-      } 
-      catch (error) {
-        console.log(error)
-      }
-    }
-    order()
-  }
-
-
+const AppointmentPage: React.FC = () => {
+  const dispatch = useAppDispatch()
+  const appointmentsState: ListAppointmentState = useAppSelector(state => state.ListAppointments as ListAppointmentState)
 
   useEffect(() => {
-    console.log(storeState)  
-    const load = async () => {
-      try {
-        const data = await loadAppointment.load()
-        setAppointments(data)
-      } 
-      catch (error) {
-        console.log(error)
-      }
-    }
-    load()
+    dispatch(loadAppointmentRequest())
   }, [])
 
   return (
@@ -121,95 +23,24 @@ const Appointment: React.FC<Props> = ({ addAppointment, editAppointment, loadApp
         <h1>Agendamentos</h1>
       </section>
       <div className="AppointmentFormWrap">
-        <form
-          className="appointmentForm"
-        >
-          <input
-            type="text"
-            value={title}
-            onChange={e => setTitle(e.target.value)}
-          />
-          <input
-            type="datetime-local"
-            value={stardedDate}
-            onChange={e => setStartedDate(useformatDate(e.target.value))}
-          />
-          <input
-            type="datetime-local"
-            value={endingDate}
-            onChange={e => setEndingDate(useformatDate(e.target.value))}
-          />
-          <button
-            className="btnAddAppoitment"
-            type="button"
-            onClick={() => handleAddAppointment()}
-          >
-            Agendar
-          </button>
-          <button
-            type="button"
-            className="btnSearchAppoitment"
-            onClick={() => handleSearchAppointment()}
-          >
-            Pesquisar
-          </button>
-        </form>
+        <AppointmentFormCreateAndSearch />
       </div>
       <div className="AppointmentFormOrderWrap">
-        <form
-          className="appointmentForm"
-          onSubmit={(e) => e.defaultPrevented}
-        >
-          <span> Ordenar:</span>
-          <input
-            name='orderName'
-            type="checkbox"
-            checked={orderTitle}
-            onChange={() => setOrderTitle(!orderTitle)}
-          />
-          <label htmlFor="orderName"> Nome</label>
-          
-          <input
-            name='orderStardedDate'
-            type="checkbox"
-            checked={orderStardedDate}
-            onChange={() => setOrderStartedDate(!orderStardedDate)}
-          />
-          <label htmlFor="orderStardedDate">Agendamento Início</label>
-          
-          <input
-            name='orderEndingDate'
-            type="checkbox"
-            checked={orderEndingDate}
-            onChange={() => setOrderEndingDate(!orderEndingDate)}
-          />
-          <label htmlFor="orderEndingDate">Agendamento Término</label>
-          
-          <button
-            type='button'
-            className="btnOrderAppoitment"
-            onClick={() => handleOrderAppointment()}
-          >
-            Organizar
-          </button>
-        </form>
+        <AppointmentFormOrder/>
       </div>
       <ul>
-        {
-          appointments?.appointments.map((item, key) => {
-            return (
-              <AppointmentCard 
-                  key={item.id}
-                  Appointment={item}
-                  EditAppointment={editAppointment}
-                  RemoveAppointment={removeAppointment}
-              />
-            )
-          })
+        {appointmentsState?.appointment.map((item, key) => {
+          return (
+            <AppointmentFormCard
+              key={item.id}
+              Appointment={item}
+            />
+          )
+        })
         }
       </ul>
     </div>
   );
 }
 
-export default Appointment
+export default AppointmentPage

@@ -1,6 +1,6 @@
 import { all, call, put, takeLatest } from '@redux-saga/core/effects'
 import { AddAppointment } from '~/domain/usecases'
-import { addAppointmentFailure, addAppointmentSuccess } from '../../actions'
+import { addAppointmentFailure, addAppointmentSuccess, loadAppointmentRequest } from '../../actions'
 import * as types from '../../types'
 import {
     makeRemoteAddAppointment
@@ -25,6 +25,7 @@ export function* addAppointmentData(action: { type: string, payload: AddAppointm
     try {
         yield call(addAppointmentRequest, action.payload)
         yield put(addAppointmentSuccess(response))
+        yield put(loadAppointmentRequest())
     } catch (error) {
         yield put(addAppointmentFailure(response))
     }
