@@ -1,0 +1,11 @@
+import { FieldValidation } from '~/validation/protocols'
+import { InvalidFieldError } from '~/validation/errors'
+
+export class MinDataValidation implements FieldValidation {
+  constructor (readonly field: string, private readonly minHour: number) {}
+
+  validate (input: object): Error {
+    //todo
+    return new Error
+  }
+} 
