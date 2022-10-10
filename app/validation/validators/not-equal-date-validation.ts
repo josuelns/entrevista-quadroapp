@@ -13,12 +13,27 @@ export class NotEqualDateValidation implements FieldValidation {
 
     console.log('entrei em date compare')
     if (input[this.field].length > 0 && input[this.fieldCompare].length > 0) {
+      
       const date = new Date(input[this.field])
+
+      const dateYear = date.getFullYear()
+      const dateMonth = date.getMonth()
+      const dateDay = date.getDay()
+      const dateHour = date.getHours()
+      const dateMinute = date.getMinutes()
+
       const dateCompare = new Date(input[this.fieldCompare])
 
-      if(date.toDateString() === dateCompare.toDateString()){
+      const dateYearCompare = dateCompare.getFullYear()
+      const dateMonthCompare = dateCompare.getMonth()
+      const dateDayCompare = dateCompare.getDay()
+      const dateHourCompare = dateCompare.getHours()
+      const dateMinuteCompare = dateCompare.getMinutes()
+
+      if (dateYear === dateYearCompare && dateMonth === dateMonthCompare && dateDay === dateDayCompare && dateHour === dateHourCompare && dateMinute === dateMinuteCompare) {
         err = true
       }
+
     }
     if (err) {
       error = {

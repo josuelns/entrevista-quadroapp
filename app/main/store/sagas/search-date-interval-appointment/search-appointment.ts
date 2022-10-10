@@ -1,6 +1,6 @@
 import { all, call, put, takeLatest } from '@redux-saga/core/effects'
 import { SearchDateIntervalAppointment } from '~/domain/usecases'
-import {  searchDateIntervalAppointmentSuccess,searchDateIntervalAppointmentFailure } from '../../actions'
+import {  searchDateIntervalAppointmentSuccess,searchDateIntervalAppointmentFailure, loadAppointmentRequest } from '../../actions'
 import * as types from '../../types'
 import {
     makeRemoteSearchDateIntervalAppointment
@@ -21,6 +21,7 @@ export function* searchDateIntervalAppointmentData(action: { type: string, paylo
     try {
         yield call(searchDateIntervalAppointmentRequest,action.payload)
         yield put(searchDateIntervalAppointmentSuccess(response))
+        yield put(loadAppointmentRequest())
     } catch (error) {
         yield put(searchDateIntervalAppointmentFailure(response))
     }
