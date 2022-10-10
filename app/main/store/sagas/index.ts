@@ -7,6 +7,7 @@ import {orderAppointmentSaga} from './order-appointment'
 import {removeAppointmentSaga} from './remove-appointment'
 import {searchAppointmentSaga} from './search-appointment'
 import {listAppointmentSaga} from './list-appointments'
+import {searchDateIntervalAppointmentSaga} from './search-date-interval-appointment'
 
 export default function* rootSaga(): Generator<any> {
     return yield all([
@@ -16,6 +17,7 @@ export default function* rootSaga(): Generator<any> {
         orderAppointmentSaga,
         removeAppointmentSaga,
         searchAppointmentSaga,
-        listAppointmentSaga
+        listAppointmentSaga,
+        searchDateIntervalAppointmentSaga
     ])
 }

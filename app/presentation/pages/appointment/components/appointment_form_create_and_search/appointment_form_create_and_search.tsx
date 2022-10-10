@@ -1,38 +1,92 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { useformatDate } from "~/presentation/hooks";
-import { AppDispatch, addAppointmentRequest, searchAppointmentRequest, loadAppointmentRequest } from "../../../../../main/store";
+import { AppDispatch, addAppointmentRequest, searchAppointmentRequest, loadAppointmentRequest, searchDateIntervalAppointmentRequest } from "../../../../../main/store";
 import { makeAddAppointmentValidation, makeSearchAppointmentValidation } from "~/main/factories/validation";
 
 type ActionParams = 'agendar' | 'pesquisar' | ''
 
 const useAppDispatch = () => useDispatch<AppDispatch>()
 
+
 export const AppointmentFormCreateAndSearch = () => {
     const dispatch = useAppDispatch()
     const [action, setAction] = useState<ActionParams>('')
-    const { register, handleSubmit, formState: { errors }, reset } = useForm();
+    const { register, handleSubmit, formState: { errors }, reset, setError, clearErrors } = useForm();
+
+    useEffect(() => {
+        console.log(errors)
+    }, [errors])
 
     const onSubmitAddAppointment = (params: any) => {
+        clearErrors()
         const AddAppointmentValidation = makeAddAppointmentValidation()
+        const fields_erros = []
+        fields_erros.push(AddAppointmentValidation.validate('title', params))
+        fields_erros.push(AddAppointmentValidation.validate('started_date', params))
+        fields_erros.push(AddAppointmentValidation.validate('ending_date', params))
 
-        console.log('submit title',AddAppointmentValidation.validate('title', params))
-        console.log('submit started',AddAppointmentValidation.validate('started_date', params))
-        console.log('submit ending',AddAppointmentValidation.validate('ending_date', params))
-        
-
-        dispatch(addAppointmentRequest({
-            title: params.title,
+        if (fields_erros.length > 0) {
+            let err = false
+            fields_erros.map(async (params: any) => { 
+                if(params){
+                    err = true
+                    setError(
+                        params.fieldName,
+                        {
+                            message: params.message,
+                            type: params.type
+                        },
+                        { shouldFocus: true }
+                    )
+                }
+            })
+            if(err) return
+        }
+        const response = dispatch(searchDateIntervalAppointmentRequest({
             started_date: useformatDate(params.started_date),
             ending_date: useformatDate(params.ending_date)
         }))
-        reset()
+
+        if(response){
+            alert('Data escolhida indisponivel')
+        }
+        else{
+            dispatch(addAppointmentRequest({
+                title: params.title,
+                started_date: useformatDate(params.started_date),
+                ending_date: useformatDate(params.ending_date)
+            }))
+            reset()
+        }
     }
 
     const onSubmitSearchAppointment = (params: any) => {
-        const SearchAppointmentValidation = makeSearchAppointmentValidation()
+        clearErrors()
+        const AddAppointmentValidation = makeSearchAppointmentValidation()
+        const fields_erros = []
+        fields_erros.push(AddAppointmentValidation.validate('title', params))
+        fields_erros.push(AddAppointmentValidation.validate('started_date', params))
+        fields_erros.push(AddAppointmentValidation.validate('ending_date', params))
 
+        if (fields_erros.length > 0) {
+            let err = false
+            fields_erros.map(async (params: any) => { 
+                if(params){
+                    err = true
+                    setError(
+                        params.fieldName,
+                        {
+                            message: params.message,
+                            type: params.type
+                        },
+                        { shouldFocus: true }
+                    )
+                }
+            })
+            if(err) return
+        }
         dispatch(searchAppointmentRequest({
             title: params.title,
             started_date: useformatDate(params.started_date),
@@ -43,7 +97,7 @@ export const AppointmentFormCreateAndSearch = () => {
     const onSubmit = (params: any) => {
         switch (action) {
             case 'agendar':
-               onSubmitAddAppointment(params)
+                onSubmitAddAppointment(params)
                 break;
             case 'pesquisar':
                 onSubmitSearchAppointment(params)

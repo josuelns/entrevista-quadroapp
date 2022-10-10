@@ -6,7 +6,8 @@ import {
   MaxLengthValidation,
   DateValidation,
   MinDateValidation,
-  NotEqualDateValidation 
+  NotEqualDateValidation,
+  DateBiggerThenValidation 
 } from '~/validation/validators'
 
 export class ValidationBuilder {
@@ -50,7 +51,7 @@ export class ValidationBuilder {
   }
 
   biggerThen (compare: string): ValidationBuilder {
-    this.validations.push(new NotEqualDateValidation(this.fieldName, compare))
+    this.validations.push(new DateBiggerThenValidation(this.fieldName, compare))
     return this
   }
 

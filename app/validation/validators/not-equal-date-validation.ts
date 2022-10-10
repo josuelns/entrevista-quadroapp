@@ -11,6 +11,7 @@ export class NotEqualDateValidation implements FieldValidation {
     let error = null
     let err = false
 
+    console.log('entrei em date compare')
     if (input[this.field].length > 0 && input[this.fieldCompare].length > 0) {
       const date = new Date(input[this.field])
       const dateCompare = new Date(input[this.fieldCompare])

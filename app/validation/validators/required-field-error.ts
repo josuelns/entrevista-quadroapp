@@ -6,7 +6,7 @@ export class RequireFieldValidation implements FieldValidation {
 
   validate (input: any): object | null{
     let error = null
-
+    
     if(!input[this.field] && input[this.field].length === 0){
       error = {
         fieldName: this.field,

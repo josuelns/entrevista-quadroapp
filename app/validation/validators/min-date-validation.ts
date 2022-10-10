@@ -14,8 +14,7 @@ export class MinDateValidation implements FieldValidation {
     if (input[this.field].length > 0) {
       const date = new Date(input[this.field])
       const dateCompare = this.minData
-
-      if(date.toDateString() < dateCompare.toDateString()){
+      if(date.toDateString() <= dateCompare.toDateString()){
         err = true
       }
     }

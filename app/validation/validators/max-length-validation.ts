@@ -10,7 +10,7 @@ export class MaxLengthValidation implements FieldValidation {
   validate (input: any): object | null {
     let error = null
 
-    if(input[this.field] && input[this.field].length <= this.maxLength){
+    if(input[this.field] && input[this.field].length > this.maxLength){
       error = {
         fieldName: this.field,
         type: 'InvalidField',

@@ -18,6 +18,8 @@ export class RemoteSearchDateIntervalAppointment implements SearchDateIntervalAp
 
       let { data: appointments, error } = await query
 
+      console.log(appointments)
+
       if(appointments){
         return appointments
       }

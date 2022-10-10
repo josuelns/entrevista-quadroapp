@@ -10,7 +10,7 @@ export class MinLengthValidation implements FieldValidation {
   validate (input: any): object | null {
     let error = null
 
-    if(input[this.field] && input[this.field].length >= this.minLength){
+    if(input[this.field] && input[this.field].length < this.minLength){
       error = {
         fieldName: this.field,
         type: 'InvalidField',

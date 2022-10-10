@@ -6,6 +6,7 @@ import { OrderAppointmentReducer } from './order-appointment'
 import { RemoveAppointmentReducer } from './remove-appointment'
 import { SearchAppointmentReducer } from './search-appointment'
 import { ListAppointmentsReducer } from './list-appointments'
+import {SearchDateIntervalAppointmentReducer} from './search-date-interval-appointment'
 
 const rootReducer = combineReducers({
     addAppointment: AddAppointmentReducer,
@@ -14,7 +15,8 @@ const rootReducer = combineReducers({
     OrderAppointment: OrderAppointmentReducer,
     RemoveAppointment: RemoveAppointmentReducer,
     SearchAppointment: SearchAppointmentReducer,
-    ListAppointments: ListAppointmentsReducer
+    ListAppointments: ListAppointmentsReducer,
+    SearchDateIntervalAppointment: SearchDateIntervalAppointmentReducer
 })
 
 export default rootReducer
