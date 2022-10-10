@@ -1,1 +1,1 @@
-export * from './appointment'
+export {default as Appointments} from './appointment'

@@ -1,12 +1,6 @@
-import {MakeAppointment} from '~/main/factories/pages'
-import { Provider } from 'react-redux';
-import store from '../store';
-
-
+import {Routes} from './routes'
 export default function Index() {
   return (
-    <Provider store={store}>
-      <MakeAppointment />
-    </Provider>
+    <Routes />
   )
 }

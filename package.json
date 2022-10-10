@@ -20,6 +20,7 @@
     "date-fns": "^2.29.3",
     "dotenv": "^16.0.3",
     "express": "^4.18.1",
+    "lodash": "^4.17.21",
     "morgan": "^1.10.0",
     "react": "^18.2.0",
     "react-devtools": "^4.26.0",
@@ -28,11 +29,13 @@
     "react-redux": "^8.0.4",
     "react-router-dom": "^6.4.1",
     "redux": "^4.2.0",
-    "redux-saga": "^1.2.1"
+    "redux-saga": "^1.2.1",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@remix-run/dev": "^1.7.0",
     "@remix-run/eslint-config": "^1.7.0",
+    "@types/lodash": "^4.14.186",
     "@types/react": "^18.0.15",
     "@types/react-dom": "^18.0.6",
     "eslint": "^8.20.0",

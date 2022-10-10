@@ -1,11 +1,23 @@
 import { FieldValidation } from '~/validation/protocols'
-import { InvalidFieldError } from '~/validation/errors'
+import { RequiredFieldError } from '~/validation/errors'
 
-export class DataValidation implements FieldValidation {
-  constructor (readonly field: string, private readonly minHour: number) {}
+export class DateValidation implements FieldValidation {
+  constructor (
+    readonly field: string,
+    private readonly minLength : string
+    ) {}
 
-  validate (input: object): Error {
-    //todo
-    return new Error
+  validate (input: any): object | null {
+    let error = null
+
+    if(input[this.field] && input[this.field].length >= this.minLength){
+      error = {
+        fieldName: this.field,
+        type: 'InvalidField',
+        message: RequiredFieldError
+      }
+    }
+
+    return  error
   }
 } 
