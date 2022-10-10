@@ -16,7 +16,12 @@ export const AppointmentFormCreateAndSearch = () => {
 
     const onSubmitAddAppointment = (params: any) => {
         const AddAppointmentValidation = makeAddAppointmentValidation()
-        console.log('submit',AddAppointmentValidation.validate('title', params))
+
+        console.log('submit title',AddAppointmentValidation.validate('title', params))
+        console.log('submit started',AddAppointmentValidation.validate('started_date', params))
+        console.log('submit ending',AddAppointmentValidation.validate('ending_date', params))
+        
+
         dispatch(addAppointmentRequest({
             title: params.title,
             started_date: useformatDate(params.started_date),

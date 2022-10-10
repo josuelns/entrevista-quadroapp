@@ -4,7 +4,7 @@ import { RequiredFieldError } from '~/validation/errors'
 export class MinLengthValidation implements FieldValidation {
   constructor (
     readonly field: string,
-    private readonly minLength : string
+    private readonly minLength : number
     ) {}
 
   validate (input: any): object | null {
