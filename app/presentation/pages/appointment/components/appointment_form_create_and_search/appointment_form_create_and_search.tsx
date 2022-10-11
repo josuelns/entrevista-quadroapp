@@ -44,12 +44,12 @@ export const AppointmentFormCreateAndSearch = () => {
             })
             if(err) return
         }
-        const response = dispatch(searchDateIntervalAppointmentRequest({
+        const response: any = dispatch(searchDateIntervalAppointmentRequest({
             started_date: useformatDate(params.started_date),
             ending_date: useformatDate(params.ending_date)
         }))
 
-        if(response){
+        if(response.length > 0){
             alert('Data escolhida indisponivel')
         }
         else{
